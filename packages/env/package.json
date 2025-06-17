@@ -1,0 +1,23 @@
+{
+  "name": "@shortcart-v3/env",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
+  "devDependencies": {
+    "@shortcart-v3/eslint-config": "workspace:*",
+    "@shortcart-v3/prettier": "workspace:*",
+    "@shortcart-v3/tsconfig": "workspace:*",
+    "@types/node": "^22.15.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@shortcart-v3/eslint-config/library"
+    ]
+  },
+  "prettier": "@shortcart-v3/prettier",
+  "dependencies": {
+    "@t3-oss/env-nextjs": "^0.13.8",
+    "zod": "^3.25.67"
+  }
+}

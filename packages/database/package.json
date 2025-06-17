@@ -1,0 +1,32 @@
+{
+  "name": "@shortcart-v3/database",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "db:generate": "pnpm env:load drizzle-kit generate",
+    "db:migrate": "pnpm env:load tsx src/migrate.ts",
+    "db:studio": "pnpm env:load drizzle-kit studio",
+    "env:load": "dotenv -e ../../.env --"
+  },
+  "dependencies": {
+    "@shortcart-v3/env": "workspace:*",
+    "drizzle-orm": "^0.44.2",
+    "postgres": "^3.4.7"
+  },
+  "devDependencies": {
+    "@shortcart-v3/eslint-config": "workspace:*",
+    "@shortcart-v3/prettier": "workspace:*",
+    "@shortcart-v3/tsconfig": "workspace:*",
+    "@types/node": "^22.15.3",
+    "dotenv-cli": "^7.4.4",
+    "drizzle-kit": "^0.31.1",
+    "typescript": "5.8.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@shortcart-v3/eslint-config/library"
+    ]
+  },
+  "prettier": "@shortcart-v3/prettier"
+}
