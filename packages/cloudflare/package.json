@@ -1,0 +1,27 @@
+{
+  "name": "@shortcart-v3/cloudflare",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.830.0",
+    "@aws-sdk/s3-request-presigner": "^3.830.0",
+    "@shortcart-v3/env": "workspace:*"
+  },
+  "devDependencies": {
+    "@shortcart-v3/eslint-config": "workspace:*",
+    "@shortcart-v3/prettier": "workspace:*",
+    "@shortcart-v3/tsconfig": "workspace:*"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@shortcart-v3/eslint-config/lib"
+    ]
+  },
+  "prettier": "@shortcart-v3/prettier"
+}

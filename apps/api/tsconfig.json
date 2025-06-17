@@ -1,0 +1,10 @@
+{
+  "extends": "@shortcart-v3/tsconfig/node.json",
+  "include": ["src", "@types", "./node_modules/@types/bcryptjs"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@shortcart-v3/validation",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@shortcart-v3/utils": "workspace:*",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@shortcart-v3/eslint-config": "workspace:*",
+    "@shortcart-v3/prettier": "workspace:*",
+    "@shortcart-v3/tsconfig": "workspace:*",
+    "typescript": "^5.3.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@shortcart-v3/eslint-config/library"
+    ]
+  },
+  "prettier": "@shortcart-v3/prettier"
+}
+
