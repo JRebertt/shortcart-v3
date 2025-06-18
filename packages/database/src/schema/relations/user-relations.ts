@@ -5,8 +5,14 @@ import { users, organizations, organizationMembers, kycDocuments } from '../tabl
 export const usersRelations = relations(users, ({ many }) => ({
   organizations: many(organizations),
   organizationMembers: many(organizationMembers),
-  kycDocuments: many(kycDocuments),
+  kycDocumentsAsOwner: many(kycDocuments, {
+    relationName: 'kyc_user',
+  }),
+  kycDocumentsAsReviewer: many(kycDocuments, {
+    relationName: 'kyc_reviewer',
+  }),
 }));
+
 
 // Relações de organizações
 export const organizationsRelations = relations(organizations, ({ one, many }) => ({
@@ -34,10 +40,13 @@ export const kycDocumentsRelations = relations(kycDocuments, ({ one }) => ({
   user: one(users, {
     fields: [kycDocuments.userId],
     references: [users.id],
+    relationName: 'kyc_user', // ✔️ nome único
   }),
   reviewer: one(users, {
     fields: [kycDocuments.reviewedBy],
     references: [users.id],
+    relationName: 'kyc_reviewer', // ✔️ agora está correto
   }),
 }));
+
 

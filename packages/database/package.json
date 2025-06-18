@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "main": "index.ts",
   "types": "index.ts",
-  "scripts": {
-    "db:generate": "pnpm env:load drizzle-kit generate",
-    "db:migrate": "pnpm env:load tsx src/migrate.ts",
-    "db:studio": "pnpm env:load drizzle-kit studio",
-    "env:load": "dotenv -e ../../.env --"
-  },
+"scripts": {
+  "db:init": "pnpm db:push && pnpm db:generate && pnpm db:studio",
+  "db:generate": "pnpm env:load drizzle-kit generate",
+  "db:push": "pnpm env:load drizzle-kit push",
+  "db:migrate": "pnpm env:load tsx src/migrate.ts",
+  "db:studio": "pnpm env:load drizzle-kit studio",
+  "env:load": "dotenv -e ../../.env --"
+},
   "dependencies": {
     "@shortcart-v3/env": "workspace:*",
     "drizzle-orm": "^0.44.2",

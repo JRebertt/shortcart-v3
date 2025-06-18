@@ -43,18 +43,30 @@ export const organizationMembers = pgTable('organization_members', {
 // Tabela de KYC
 export const kycDocuments = pgTable('kyc_documents', {
   id: uuid('id').primaryKey().defaultRandom(),
-  userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, {
+      onDelete: 'cascade',
+    }),
+
   documentType: varchar('document_type', { length: 50 }).notNull(),
   documentNumber: varchar('document_number', { length: 50 }).notNull(),
   documentFront: text('document_front').notNull(),
   documentBack: text('document_back'),
   selfie: text('selfie').notNull(),
+
   status: kycStatusEnum('status').default('pending').notNull(),
   reviewedAt: timestamp('reviewed_at'),
-  reviewedBy: uuid('reviewed_by').references(() => users.id),
+
+  reviewedBy: uuid('reviewed_by')
+    .references(() => users.id, {
+    }),
+
   rejectionReason: text('rejection_reason'),
   additionalInfo: jsonb('additional_info').default({}).notNull(),
+
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-});
+})
+
 
