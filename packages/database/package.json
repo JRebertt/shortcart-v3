@@ -1,8 +1,8 @@
 {
   "name": "@shortcart-v3/database",
   "version": "0.1.0",
-  "main": "index.ts",
-  "types": "index.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
 "scripts": {
   "db:init": "pnpm db:push && pnpm db:generate && pnpm db:studio",
   "db:generate": "pnpm env:load drizzle-kit generate",

@@ -1,13 +1,13 @@
-
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { db } from '@shortcart-v3/database'
-import { users } from '@shortcart-v3/database/schema'
+
 import { eq } from 'drizzle-orm'
 
 import { BadRequestError } from '../_error/bad-request-error'
+import { comparePassword } from '@shortcart-v3/utils'
+import { db, users } from '@shortcart-v3/database'
 
 export async function authenticateWithPassword(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -37,7 +37,7 @@ export async function authenticateWithPassword(app: FastifyInstance) {
       }
 
       // Verificar senha
-      const isPasswordValid = await compare(password, user.passwordHash)
+      const isPasswordValid = await comparePassword(password, user.passwordHash)
 
       if (!isPasswordValid) {
         throw new BadRequestError('Credenciais inválidas.')

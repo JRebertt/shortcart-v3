@@ -1,4 +1,4 @@
 {
   "extends": "@shortcart-v3/tsconfig/node.json",
-  "include": ["src/client.ts"]
+  "include": ["src/**/*"]
 }
