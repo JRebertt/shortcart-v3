@@ -2,8 +2,8 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { db } from '@repo/database'
-import { kycVerifications } from '@repo/database/schema'
+import { db } from '@shortcart-v3/database'
+import { kycVerifications } from '@shortcart-v3/database/schema'
 import { eq } from 'drizzle-orm'
 
 import { UnauthorizedError } from '../_error/unauthorized-error'

@@ -3,8 +3,8 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { db } from '@shortcart-v3/database/src/client'
-import { users } from '@shortcart-v3/database/src/schema'
+import { db } from '@shortcart-v3/database'
+import { users } from '@shortcart-v3/database/schema'
 import { eq } from 'drizzle-orm'
 
 import { BadRequestError } from '../_error/bad-request-error'
