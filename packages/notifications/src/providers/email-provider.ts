@@ -17,13 +17,13 @@ export class SendGridEmailProvider implements EmailProvider {
   configure(config: Record<string, unknown>): void {
     this.config = config as any;
     
-    this.transporter = nodemailer.createTransporter({
+    this.transporter = nodemailer.createTransport({
       host: 'smtp.sendgrid.net',
       port: 587,
       secure: false,
       auth: {
         user: 'apikey',
-        pass: this.config.apiKey,
+        pass: this.config!.apiKey,
       },
     });
     
@@ -120,11 +120,11 @@ export class ResendEmailProvider implements EmailProvider {
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.config?.apiKey}`,
+          'Authorization': `Bearer ${this.config!.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: data.from || `${this.config?.fromName || 'CheckoutSaaS'} <${this.config?.fromEmail}>`,
+          from: data.from || `${this.config?.fromName || 'CheckoutSaaS'} <${this.config!.fromEmail}>`,
           to: [data.to],
           subject: data.subject,
           html: data.html || data.content,
@@ -133,7 +133,7 @@ export class ResendEmailProvider implements EmailProvider {
         }),
       });
 
-      const result = await response.json();
+      const result: any = await response.json();
 
       if (!response.ok) {
         throw new Error(result.message || 'Erro ao enviar email');
