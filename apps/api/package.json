@@ -8,7 +8,9 @@
     "env:load": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@shortcart-v3/database": "workspace:*",
     "@shortcart-v3/validation": "workspace:*",
+    "@shortcart-v3/utils": "workspace:*",
     "@shortcart-v3/notifications": "workspace:*",
     "@shortcart-v3/env": "workspace:*",
     "@fastify/cors": "^11.0.1",

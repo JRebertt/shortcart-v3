@@ -32,12 +32,18 @@ importers:
       '@fastify/swagger-ui':
         specifier: ^5.2.3
         version: 5.2.3
+      '@shortcart-v3/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@shortcart-v3/env':
         specifier: workspace:*
         version: link:../../packages/env
       '@shortcart-v3/notifications':
         specifier: workspace:*
         version: link:../../packages/notifications
+      '@shortcart-v3/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@shortcart-v3/validation':
         specifier: workspace:*
         version: link:../../packages/validation
