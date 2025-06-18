@@ -1,211 +1,112 @@
-import Fastify from 'fastify';
+import fastify from 'fastify'
+import fastifyRawBody from 'fastify-raw-body'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUI from '@fastify/swagger-ui'
+import fastifyJwt from '@fastify/jwt'
+import fastifyCors from '@fastify/cors'
+import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 
-import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
-import cors from '@fastify/cors';
-import cookie from '@fastify/cookie';
-import swagger from '@fastify/swagger';
-import swaggerUi from '@fastify/swagger-ui';
-import rateLimit from '@fastify/rate-limit';
-import helmet from '@fastify/helmet';
-import { config } from 'dotenv';
+import { env } from '@shortcart-v3/env'
 
-// Importar rotas
-import { authRoutes } from './routes/auth-routes';
-import { organizationRoutes } from './routes/organization-routes';
-import { productRoutes } from './routes/product-routes';
-import { customerRoutes } from './routes/customer-routes';
-import { paymentRoutes } from './routes/payment-routes';
-import { subscriptionRoutes } from './routes/subscription-routes';
-import { webhookRoutes } from './routes/webhook-routes';
-import { apiKeyRoutes } from './routes/api-key-routes';
-import { analyticsRoutes } from './routes/analytics-routes';
-import { checkoutRoutes } from './routes/checkout-routes';
+import { errorHandler } from './middleware/error-handler'
 
-// Importar middleware
-import { authMiddleware } from './middleware/auth-middleware';
-import { organizationMiddleware } from './middleware/organization-middleware';
-import { errorHandler } from './middleware/error-handler';
+import { authenticateWithPassword } from './http/routes/auth/authenticate-with-password'
+import { createAccount } from './http/routes/auth/create-account'
+import { getProfile } from './http/routes/auth/get-profile'
+import { requestPasswordRecover } from './http/routes/auth/request-password-recover'
+import { resetPassword } from './http/routes/auth/reset-password'
 
-config();
+import { createOrganization } from './http/routes/organizations/create-organization'
+import { getOrganizations } from './http/routes/organizations/get-organizations'
 
-async function createServer() {
-  const fastify = Fastify({
-    logger: {
-      level: process.env.NODE_ENV === 'development' ? 'debug' : 'info',
-      transport: process.env.NODE_ENV === 'development' ? {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'HH:MM:ss',
-          ignore: 'pid,hostname',
-        },
-      } : undefined,
+import { createProduct } from './http/routes/products/create-product'
+import { getProducts } from './http/routes/products/get-products'
+
+import { connectGateway } from './http/routes/gateways/connect-gateway'
+import { getGateways } from './http/routes/gateways/get-gateways'
+
+import { addPaymentMethod } from './http/routes/payment-methods/add-payment-method'
+import { getPaymentMethods } from './http/routes/payment-methods/get-payment-methods'
+
+import { processPayment } from './http/routes/payments/process-payment'
+
+import { submitKycDocuments } from './http/routes/kyc/submit-documents'
+import { getKycStatus } from './http/routes/kyc/get-status'
+
+const app = fastify().withTypeProvider<ZodTypeProvider>()
+
+app.register(fastifyRawBody, {
+  field: 'rawBody',
+  global: false,
+  encoding: 'utf8',
+  runFirst: true,
+})
+
+app.setSerializerCompiler(serializerCompiler)
+app.setValidatorCompiler(validatorCompiler)
+
+app.setErrorHandler(errorHandler)
+
+app.register(fastifySwagger, {
+  openapi: {
+    info: {
+      title: 'Next.js SaaS',
+      description: 'Full-stack SaaS with multi-tenant & RBAC.',
+      version: '1.0.0',
     },
-  }).withTypeProvider<ZodTypeProvider>();
-
-  // Configurar validação e serialização com Zod
-  fastify.setValidatorCompiler(validatorCompiler);
-  fastify.setSerializerCompiler(serializerCompiler);
-
-  // Registrar plugins de segurança
-  await fastify.register(helmet, {
-    contentSecurityPolicy: false,
-  });
-
-  await fastify.register(rateLimit, {
-    max: 100,
-    timeWindow: '1 minute',
-  });
-
-  // Registrar CORS
-  await fastify.register(cors, {
-    origin: process.env.NODE_ENV === 'development' ? true : process.env.ALLOWED_ORIGINS?.split(',') || false,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Organization-Id'],
-  });
-
-  // Registrar cookies
-  await fastify.register(cookie, {
-    secret: process.env.AUTH_SECRET || 'your-secret-key',
-    parseOptions: {},
-  });
-
-  // Registrar Swagger
-  await fastify.register(swagger, {
-    swagger: {
-      info: {
-        title: 'Checkout SaaS API',
-        description: 'API completa para SaaS de checkout com múltiplos gateways de pagamento',
-        version: '1.0.0',
-      },
-      host: `localhost:${process.env.PORT || 3000}`,
-      schemes: ['http', 'https'],
-      consumes: ['application/json'],
-      produces: ['application/json'],
-      securityDefinitions: {
+    components: {
+      securitySchemes: {
         bearerAuth: {
-          type: 'apiKey',
-          name: 'Authorization',
-          in: 'header',
-          description: 'Bearer token para autenticação',
-        },
-        apiKey: {
-          type: 'apiKey',
-          name: 'X-API-Key',
-          in: 'header',
-          description: 'Chave de API para acesso programático',
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
         },
       },
-      tags: [
-        { name: 'auth', description: 'Autenticação e registro' },
-        { name: 'organizations', description: 'Gestão de organizações' },
-        { name: 'products', description: 'Gestão de produtos' },
-        { name: 'customers', description: 'Gestão de clientes' },
-        { name: 'payments', description: 'Processamento de pagamentos' },
-        { name: 'subscriptions', description: 'Gestão de assinaturas' },
-        { name: 'webhooks', description: 'Configuração de webhooks' },
-        { name: 'api-keys', description: 'Gestão de chaves de API' },
-        { name: 'analytics', description: 'Analytics e relatórios' },
-        { name: 'checkout', description: 'Checkout público' },
-      ],
     },
-  });
+  },
+})
 
-  await fastify.register(swaggerUi, {
-    routePrefix: '/documentation',
-    uiConfig: {
-      docExpansion: 'list',
-      deepLinking: false,
-    },
-    staticCSP: true,
-  });
+app.register(fastifySwaggerUI, {
+  routePrefix: '/docs',
+})
 
-  // Registrar middleware global
-  fastify.addHook('onRequest', authMiddleware);
-  fastify.addHook('onRequest', organizationMiddleware);
-  fastify.setErrorHandler(errorHandler);
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+})
 
-  // Registrar rotas
-  await fastify.register(authRoutes, { prefix: '/api/auth' });
-  await fastify.register(organizationRoutes, { prefix: '/api/organizations' });
-  await fastify.register(productRoutes, { prefix: '/api/products' });
-  await fastify.register(customerRoutes, { prefix: '/api/customers' });
-  await fastify.register(paymentRoutes, { prefix: '/api/payments' });
-  await fastify.register(subscriptionRoutes, { prefix: '/api/subscriptions' });
-  await fastify.register(webhookRoutes, { prefix: '/api/webhooks' });
-  await fastify.register(apiKeyRoutes, { prefix: '/api/api-keys' });
-  await fastify.register(analyticsRoutes, { prefix: '/api/analytics' });
-  await fastify.register(checkoutRoutes, { prefix: '/checkout' });
+// Authenticate
+app.register(authenticateWithPassword)
+app.register(createAccount)
+app.register(getProfile)
+app.register(requestPasswordRecover)
+app.register(resetPassword)
 
-  // Rota raiz
-  fastify.get('/', async () => {
-    return {
-      name: 'Checkout SaaS API',
-      version: '1.0.0',
-      description: 'API completa para SaaS de checkout',
-      features: [
-        'Autenticação com BetterAuth',
-        'Multitenancy com CASL',
-        'Múltiplos gateways de pagamento',
-        'Sistema de assinaturas',
-        'Webhooks configuráveis',
-        'Analytics integrado',
-        'KYC automatizado',
-        'API Keys com escopos',
-      ],
-      environment: process.env.NODE_ENV || 'development',
-      documentation: '/documentation',
-    };
-  });
+// Organizatons
+app.register(createOrganization)
+app.register(getOrganizations)
 
-  // Health check
-  fastify.get('/health', async () => {
-    return {
-      status: 'healthy',
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      environment: process.env.NODE_ENV || 'development',
-      version: '1.0.0',
-    };
-  });
+// Gateways
+app.register(connectGateway)
+app.register(getGateways)
 
-  return fastify;
-}
+// Payment methods
+app.register(addPaymentMethod)
+app.register(getPaymentMethods)
 
-async function start() {
-  try {
-    const fastify = await createServer();
-    
-    const host = process.env.HOST || '0.0.0.0';
-    const port = parseInt(process.env.PORT || '3000');
+// Payments
+app.register(processPayment)
 
-    await fastify.listen({ host, port });
+// KYC
+app.register(submitKycDocuments)
+app.register(getKycStatus)
 
-    console.log(`🚀 Checkout SaaS API rodando em http://${host}:${port}`);
-    console.log(`📚 Documentação em http://${host}:${port}/documentation`);
-    console.log(`🔐 Autenticação: BetterAuth + CASL`);
-    console.log(`🗄️  Banco: PostgreSQL + Drizzle ORM`);
-    console.log(`🏗️  Arquitetura: Monorepo + Turborepo`);
-    console.log(`💳 Gateways: Modulares e extensíveis`);
-    console.log(`📊 Analytics: UTMify integrado`);
-    console.log(`🔔 Notificações: Email + Webhook + SMS`);
-  } catch (error) {
-    console.error('❌ Erro ao iniciar servidor:', error);
-    process.exit(1);
-  }
-}
+// Products
+app.register(createProduct)
+app.register(getProducts)
 
-// Tratar sinais de encerramento
-process.on('SIGINT', () => {
-  console.log('🛑 Encerrando servidor...');
-  process.exit(0);
-});
+app.register(fastifyCors)
 
-process.on('SIGTERM', () => {
-  console.log('🛑 Encerrando servidor...');
-  process.exit(0);
-});
-
-start();
+app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
+  console.log('Http server runnig 🚀')
+})
 

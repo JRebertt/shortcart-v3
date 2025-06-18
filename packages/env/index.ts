@@ -4,9 +4,12 @@ import { z } from 'zod'
 
 export const env = createEnv({
   server: {
-    // PORT: z.coerce.number().default(3333),
     DATABASE_URL: z.string().url(),
-    // JWT_SECRET: z.string(),
+    CLOUDFLARE_ACCOUNT_ID: z.string(),
+    CLOUDFLARE_ACCESS_KEY: z.string(),
+    CLOUDFLARE_SECRET_KEY: z.string(),
+    PORT: z.coerce.number().default(3333),
+    JWT_SECRET: z.string(),
     // GOOGLE_CLIENT_ID: z.string(),
     // GOOGLE_CLIENT_SECRET: z.string(),
     // GITHUB_OAUTH_CLIENT_ID: z.string(),
@@ -25,8 +28,11 @@ export const env = createEnv({
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
-    // PORT: process.env.PORT,
-    // JWT_SECRET: process.env.JWT_SECRET,
+    CLOUDFLARE_ACCOUNT_ID: process.env.CLOUDFLARE_ACCOUNT_ID,
+    CLOUDFLARE_ACCESS_KEY: process.env.CLOUDFLARE_ACCESS_KEY,
+    CLOUDFLARE_SECRET_KEY: process.env.CLOUDFLARE_SECRET_KEY,
+    PORT: process.env.PORT,
+    JWT_SECRET: process.env.JWT_SECRET,
     // GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     // GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     // NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
