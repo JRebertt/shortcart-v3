@@ -6,8 +6,8 @@ import { db } from '@shortcart-v3/database'
 import { users } from '@shortcart-v3/database/schema'
 import { eq } from 'drizzle-orm'
 
-import { BadRequestError } from '../_error/bad-request-error'
-import { UnauthorizedError } from '../_error/unauthorized-error'
+import { BadRequestError } from '../_errors/bad-request-error'
+import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 export async function getProfile(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(

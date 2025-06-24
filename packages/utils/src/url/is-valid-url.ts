@@ -1,10 +1,9 @@
-import { URL } from 'node:url'
+import { z } from 'zod'
 
+export const isValidUrlSchema = z.string().url()
+
+// Uso
 export function isValidUrl(url: string): boolean {
-  try {
-    new URL(url)
-    return true;
-  } catch {
-    return false;
-  }
+  const result = isValidUrlSchema.safeParse(url)
+  return result.success
 }

@@ -1,6 +1,6 @@
 import { pgTable, uuid, varchar, text, boolean, timestamp, decimal, jsonb } from 'drizzle-orm/pg-core';
 import { productTypeEnum, billingTypeEnum, subscriptionIntervalEnum, subscriptionStatusEnum } from '../enums';
-import { organizations, customers } from './user-tables';
+import { organizations } from './user-tables';
 
 // Tabela de produtos
 export const products = pgTable('products', {

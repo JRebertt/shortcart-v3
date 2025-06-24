@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { eq } from 'drizzle-orm'
 
-import { BadRequestError } from '../_error/bad-request-error'
+import { BadRequestError } from '../_errors/bad-request-error'
 import { comparePassword } from '@shortcart-v3/utils'
 import { db, users } from '@shortcart-v3/database'
 

@@ -1,5 +1,4 @@
 import { pgTable, uuid, varchar, text, boolean, timestamp, jsonb } from 'drizzle-orm/pg-core';
-import { apiKeyScopeEnum } from '../enums';
 import { organizations } from './user-tables';
 
 // Tabela de chaves de API

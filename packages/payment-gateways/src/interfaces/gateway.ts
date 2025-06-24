@@ -1,4 +1,4 @@
-import { PaymentMethod, PaymentStatus, GatewayProvider } from '@shortcart-v3/utils';
+import { PaymentMethod, GatewayProvider } from '@shortcart-v3/utils';
 import { GatewayCredentials, WebhookData } from './config';
 import { PaymentRequest } from './requests';
 import { PaymentResponse } from './responses';

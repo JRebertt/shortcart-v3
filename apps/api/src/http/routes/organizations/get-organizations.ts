@@ -6,7 +6,7 @@ import { db } from '@shortcart-v3/database'
 import { organizations, organizationMembers } from '@shortcart-v3/database/schema'
 import { eq } from 'drizzle-orm'
 
-import { UnauthorizedError } from '../_error/unauthorized-error'
+import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 export async function getOrganizations(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(

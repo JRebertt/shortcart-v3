@@ -3,10 +3,10 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { db } from '@shortcart-v3/database'
-import { kycVerifications } from '@shortcart-v3/database/schema'
+import { kycVerifications } from '@shortcart-v3/database/src/schema'
 import { eq } from 'drizzle-orm'
 
-import { UnauthorizedError } from '../_error/unauthorized-error'
+import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 export async function getKycStatus(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(

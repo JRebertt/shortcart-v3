@@ -34,7 +34,7 @@ importers:
         version: 5.2.3
       '@shortcart-v3/database':
         specifier: workspace:*
-        version: link:../../packages/database
+        version: link:../../packages/findu.run
       '@shortcart-v3/env':
         specifier: workspace:*
         version: link:../../packages/env
@@ -55,7 +55,7 @@ importers:
         version: 4.1.0
       drizzle-orm:
         specifier: ^0.44.2
-        version: 0.44.2(postgres@3.4.7)
+        version: 0.44.2(pg@8.16.2)(postgres@3.4.7)
       fastify:
         specifier: ^5.4.0
         version: 5.4.0
@@ -66,8 +66,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       fastify-type-provider-zod:
-        specifier: ^5.0.1
-        version: 5.0.1(@fastify/swagger@9.5.1)(fastify@5.4.0)(zod@3.25.67)
+        specifier: ^4.0.2
+        version: 4.0.2(fastify@5.4.0)(zod@3.25.67)
       zod:
         specifier: ^3.25.67
         version: 3.25.67
@@ -149,7 +149,10 @@ importers:
         version: link:../env
       drizzle-orm:
         specifier: ^0.44.2
-        version: 0.44.2(postgres@3.4.7)
+        version: 0.44.2(pg@8.16.2)(postgres@3.4.7)
+      pg:
+        specifier: ^8.16.2
+        version: 8.16.2
       postgres:
         specifier: ^3.4.7
         version: 3.4.7
@@ -216,6 +219,40 @@ importers:
       '@types/node':
         specifier: ^22.15.3
         version: 22.15.3
+
+  packages/findu.run:
+    dependencies:
+      '@shortcart-v3/env':
+        specifier: workspace:*
+        version: link:../env
+      axios:
+        specifier: ^1.10.0
+        version: 1.10.0
+      undici:
+        specifier: ^7.10.0
+        version: 7.10.0
+      zod:
+        specifier: ^3.25.67
+        version: 3.25.67
+    devDependencies:
+      '@shortcart-v3/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
+      '@shortcart-v3/prettier':
+        specifier: workspace:*
+        version: link:../../config/prettier
+      '@shortcart-v3/tsconfig':
+        specifier: workspace:*
+        version: link:../../config/typescript-config
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.15.3
+      dotenv-cli:
+        specifier: ^7.4.4
+        version: 7.4.4
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
 
   packages/notifications:
     dependencies:
@@ -2323,12 +2360,11 @@ packages:
     resolution: {integrity: sha512-2qfoaQ3BQDhZ1gtbkKZd6n0kKxJISJGM6u/skD9ljdWItAscjXrtZ1lnjr7PavmXX9j4EyCPmBDiIsLn07d5vA==}
     engines: {node: '>= 10'}
 
-  fastify-type-provider-zod@5.0.1:
-    resolution: {integrity: sha512-h2XEUakE8WCfL/Qnd0VcF1NcpKtCx7XvK8Mz0VclwSksNDpu0ggJt80HMg9oOUm/wOcfxojndBrq0QKnhyVp5A==}
+  fastify-type-provider-zod@4.0.2:
+    resolution: {integrity: sha512-FDRzSL3ZuoZ+4YDevR1YOinmDKkxOdy3QB9dDR845sK+bQvDroPKhHAXLEAOObDxL7SMA0OZN/A4osrNBTdDTQ==}
     peerDependencies:
-      '@fastify/swagger': '>=9.5.1'
       fastify: ^5.0.0
-      zod: '>=3.25.56'
+      zod: ^3.14.2
 
   fastify@5.4.0:
     resolution: {integrity: sha512-I4dVlUe+WNQAhKSyv15w+dwUh2EPiEl4X2lGYMmNSgF83WzTMAPKGdWEv5tPsCQOb+SOZwz8Vlta2vF+OeDgRw==}
@@ -3163,6 +3199,40 @@ packages:
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
+  pg-cloudflare@1.2.6:
+    resolution: {integrity: sha512-uxmJAnmIgmYgnSFzgOf2cqGQBzwnRYcrEgXuFjJNEkpedEIPBSEzxY7ph4uA9k1mI+l/GR0HjPNS6FKNZe8SBQ==}
+
+  pg-connection-string@2.9.1:
+    resolution: {integrity: sha512-nkc6NpDcvPVpZXxrreI/FOtX3XemeLl8E0qFr6F2Lrm/I8WOnaWNhIPK2Z7OHpw7gh5XJThi6j6ppgNoaT1w4w==}
+
+  pg-int8@1.0.1:
+    resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
+    engines: {node: '>=4.0.0'}
+
+  pg-pool@3.10.1:
+    resolution: {integrity: sha512-Tu8jMlcX+9d8+QVzKIvM/uJtp07PKr82IUOYEphaWcoBhIYkoHpLXN3qO59nAI11ripznDsEzEv8nUxBVWajGg==}
+    peerDependencies:
+      pg: '>=8.0'
+
+  pg-protocol@1.10.2:
+    resolution: {integrity: sha512-Ci7jy8PbaWxfsck2dwZdERcDG2A0MG8JoQILs+uZNjABFuBuItAZCWUNz8sXRDMoui24rJw7WlXqgpMdBSN/vQ==}
+
+  pg-types@2.2.0:
+    resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
+    engines: {node: '>=4'}
+
+  pg@8.16.2:
+    resolution: {integrity: sha512-OtLWF0mKLmpxelOt9BqVq83QV6bTfsS0XLegIeAKqKjurRnRKie1Dc1iL89MugmSLhftxw6NNCyZhm1yQFLMEQ==}
+    engines: {node: '>= 16.0.0'}
+    peerDependencies:
+      pg-native: '>=3.0.1'
+    peerDependenciesMeta:
+      pg-native:
+        optional: true
+
+  pgpass@1.0.5:
+    resolution: {integrity: sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==}
+
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
 
@@ -3215,6 +3285,22 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  postgres-array@2.0.0:
+    resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
+    engines: {node: '>=4'}
+
+  postgres-bytea@1.0.0:
+    resolution: {integrity: sha512-xy3pmLuQqRBZBXDULy7KbaitYqLcmxigw14Q5sj8QBVLqEwXfeybIKVWiqAXTlcvdvb0+xkOtDbfQMOf4lST1w==}
+    engines: {node: '>=0.10.0'}
+
+  postgres-date@1.0.7:
+    resolution: {integrity: sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q==}
+    engines: {node: '>=0.10.0'}
+
+  postgres-interval@1.2.0:
+    resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
+    engines: {node: '>=0.10.0'}
 
   postgres@3.4.7:
     resolution: {integrity: sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw==}
@@ -3870,6 +3956,10 @@ packages:
   undici-types@7.8.0:
     resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
 
+  undici@7.10.0:
+    resolution: {integrity: sha512-u5otvFBOBZvmdjWLVW+5DAc9Nkq8f24g0O9oY7qw2JVIF1VocIFoyz9JFkuVOS2j41AufeO0xnlweJ2RLT8nGw==}
+    engines: {node: '>=20.18.1'}
+
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
@@ -3979,6 +4069,11 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zod-to-json-schema@3.24.5:
+    resolution: {integrity: sha512-/AuWwMP+YqiPbsJx5D6TfgRTc4kTLjsh5SOcd4bLsfUg2RcEXrFMJl1DGgdHy2aCfsIA/cr/1JM0xcB2GZji8g==}
+    peerDependencies:
+      zod: ^3.24.1
 
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
@@ -5919,8 +6014,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.44.2(postgres@3.4.7):
+  drizzle-orm@0.44.2(pg@8.16.2)(postgres@3.4.7):
     optionalDependencies:
+      pg: 8.16.2
       postgres: 3.4.7
 
   dunder-proto@1.0.1:
@@ -6406,12 +6502,12 @@ snapshots:
       raw-body: 3.0.0
       secure-json-parse: 2.7.0
 
-  fastify-type-provider-zod@5.0.1(@fastify/swagger@9.5.1)(fastify@5.4.0)(zod@3.25.67):
+  fastify-type-provider-zod@4.0.2(fastify@5.4.0)(zod@3.25.67):
     dependencies:
       '@fastify/error': 4.2.0
-      '@fastify/swagger': 9.5.1
       fastify: 5.4.0
       zod: 3.25.67
+      zod-to-json-schema: 3.24.5(zod@3.25.67)
 
   fastify@5.4.0:
     dependencies:
@@ -7365,6 +7461,41 @@ snapshots:
 
   pathe@2.0.3: {}
 
+  pg-cloudflare@1.2.6:
+    optional: true
+
+  pg-connection-string@2.9.1: {}
+
+  pg-int8@1.0.1: {}
+
+  pg-pool@3.10.1(pg@8.16.2):
+    dependencies:
+      pg: 8.16.2
+
+  pg-protocol@1.10.2: {}
+
+  pg-types@2.2.0:
+    dependencies:
+      pg-int8: 1.0.1
+      postgres-array: 2.0.0
+      postgres-bytea: 1.0.0
+      postgres-date: 1.0.7
+      postgres-interval: 1.2.0
+
+  pg@8.16.2:
+    dependencies:
+      pg-connection-string: 2.9.1
+      pg-pool: 3.10.1(pg@8.16.2)
+      pg-protocol: 1.10.2
+      pg-types: 2.2.0
+      pgpass: 1.0.5
+    optionalDependencies:
+      pg-cloudflare: 1.2.6
+
+  pgpass@1.0.5:
+    dependencies:
+      split2: 4.2.0
+
   picocolors@1.0.1: {}
 
   picocolors@1.1.1: {}
@@ -7409,6 +7540,16 @@ snapshots:
     optionalDependencies:
       tsx: 4.20.3
       yaml: 2.8.0
+
+  postgres-array@2.0.0: {}
+
+  postgres-bytea@1.0.0: {}
+
+  postgres-date@1.0.7: {}
+
+  postgres-interval@1.2.0:
+    dependencies:
+      xtend: 4.0.2
 
   postgres@3.4.7: {}
 
@@ -8102,6 +8243,8 @@ snapshots:
 
   undici-types@7.8.0: {}
 
+  undici@7.10.0: {}
+
   universalify@2.0.1: {}
 
   unpipe@1.0.0: {}
@@ -8224,5 +8367,9 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zod-to-json-schema@3.24.5(zod@3.25.67):
+    dependencies:
+      zod: 3.25.67
 
   zod@3.25.67: {}

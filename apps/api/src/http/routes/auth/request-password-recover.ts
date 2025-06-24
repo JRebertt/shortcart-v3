@@ -7,7 +7,7 @@ import { db } from '@shortcart-v3/database'
 import { users, passwordResetTokens } from '@shortcart-v3/database/schema'
 import { eq } from 'drizzle-orm'
 
-import { BadRequestError } from '../_error/bad-request-error'
+import { BadRequestError } from '../_errors/bad-request-error'
 
 export async function requestPasswordRecover(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(

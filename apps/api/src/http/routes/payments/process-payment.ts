@@ -2,12 +2,12 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { db } from '@shortcart-v3/database'
-import { payments, products, gatewayConfigurations } from '@shortcart-v3/database/schema'
+
+import { payments, products, gatewayConfigurations } from '@shortcart-v3/database/src/schema'
 import { eq, and } from 'drizzle-orm'
 
-import { BadRequestError } from '../_error/bad-request-error'
-import { UnauthorizedError } from '../_error/unauthorized-error'
+import { BadRequestError } from '../_errors/bad-request-error'
+import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 // Importar o package de gateways
 // import { PaymentGatewayManager } from '@repo/payment-gateways'
