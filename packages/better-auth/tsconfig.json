@@ -1,0 +1,4 @@
+{
+  "extends": "@shortcart-v3/tsconfig/node.json",
+  "include": ["index.ts"]
+}

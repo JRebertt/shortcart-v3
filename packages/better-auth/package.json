@@ -1,17 +1,20 @@
 {
-  "name": "@shortcart-v3/findu",
+  "name": "@shortcart-v3/better-auth",
   "version": "0.1.0",
   "main": "index.ts",
   "types": "index.ts",
-  "scripts": {
-  },
+"scripts": {
+  "auth:generate": "dotenv -e ../../.env -- pnpx @better-auth/cli generate --config ./src/auth.ts --output ../database/src/better-auth/auth-schema.ts",
+  "env:load": "dotenv -e ../../.env --"
+},
   "dependencies": {
+    "@shortcart-v3/database": "workspace:*",
     "@shortcart-v3/env": "workspace:*",
-    "axios": "^1.10.0",
-    "undici": "^7.10.0",
+    "better-auth": "^1.2.10",
     "zod": "^3.25.67"
   },
   "devDependencies": {
+    "@better-auth/cli": "^1.2.10",
     "@shortcart-v3/eslint-config": "workspace:*",
     "@shortcart-v3/prettier": "workspace:*",
     "@shortcart-v3/tsconfig": "workspace:*",
